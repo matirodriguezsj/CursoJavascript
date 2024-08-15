@@ -1,11 +1,13 @@
 let listaDeTareas = [];
 
 function cargarTareas() {
-    const tareasGuardadas = localStorage.getItem('tareas');
-    if (tareasGuardadas) {
-        listaDeTareas = JSON.parse(tareasGuardadas);
-    }
-    mostrarTareas();
+    fetch('./js/tareas.json')
+        .then(response => response.json())
+        .then(data => {
+            listaDeTareas = data;
+            mostrarTareas();
+        })
+        .catch(error => console.error('Error al cargar las tareas:', error));
 }
 
 function guardarTareas() {
@@ -90,4 +92,6 @@ document.getElementById('taskForm').addEventListener('submit', (event) => {
     }
 });
 
-cargarTareas();
+// Esta línea debe ir aquí, al final del archivo.
+document.addEventListener('DOMContentLoaded', cargarTareas);
+

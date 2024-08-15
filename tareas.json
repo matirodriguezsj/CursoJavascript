@@ -1,0 +1,14 @@
+[
+    {
+        "tarea": "Estudiar JavaScript",
+        "descripcion": "Completar la lección sobre fetch",
+        "prioridad": "Alta",
+        "completada": false
+    },
+    {
+        "tarea": "Leer un libro",
+        "descripcion": "Terminar el capítulo 4",
+        "prioridad": "Media",
+        "completada": false
+    }
+]
