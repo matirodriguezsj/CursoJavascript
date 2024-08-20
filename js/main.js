@@ -92,6 +92,6 @@ document.getElementById('taskForm').addEventListener('submit', (event) => {
     }
 });
 
-// Esta línea debe ir aquí, al final del archivo.
+
 document.addEventListener('DOMContentLoaded', cargarTareas);
 
