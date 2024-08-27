@@ -1,22 +1,11 @@
-let listaDeTareas = [];
+// En main.js
+import { cargarTareas, guardarTareas } from './storage.js';
 
-function cargarTareas() {
-    fetch('./js/tareas.json')
-        .then(response => response.json())
-        .then(data => {
-            listaDeTareas = data;
-            mostrarTareas();
-        })
-        .catch(error => console.error('Error al cargar las tareas:', error));
-}
-
-function guardarTareas() {
-    localStorage.setItem('tareas', JSON.stringify(listaDeTareas));
-}
+let listaDeTareas = cargarTareas();
 
 function agregarTarea(tarea, descripcion, prioridad) {
     listaDeTareas.push({ tarea: tarea, descripcion: descripcion, prioridad: prioridad, completada: false });
-    guardarTareas();
+    guardarTareas(listaDeTareas);
     mostrarTareas();
 }
 
@@ -32,13 +21,13 @@ function mostrarTareas() {
             li.innerHTML = `
                 <span>${item.tarea} (${item.prioridad}) - ${item.descripcion}</span>
                 <div class="actions">
-                    <button onclick="marcarComoCompletada(${index})">
+                    <button onclick="window.marcarComoCompletada(${index})">
                         <i class="fas ${item.completada ? 'fa-undo' : 'fa-check'}"></i>
                     </button>
-                    <button onclick="editarTarea(${index})">
+                    <button onclick="window.editarTarea(${index})">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button onclick="eliminarTarea(${index})">
+                    <button onclick="window.eliminarTarea(${index})">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>
@@ -51,13 +40,13 @@ function mostrarTareas() {
     }
 }
 
-function marcarComoCompletada(index) {
+window.marcarComoCompletada = function (index) {
     listaDeTareas[index].completada = !listaDeTareas[index].completada;
-    guardarTareas();
+    guardarTareas(listaDeTareas);
     mostrarTareas();
 }
 
-function editarTarea(index) {
+window.editarTarea = function (index) {
     const tareaNueva = prompt("Ingrese la nueva tarea:", listaDeTareas[index].tarea);
     const descripcionNueva = prompt("Ingrese la nueva descripción:", listaDeTareas[index].descripcion);
     const prioridadNueva = prompt("Ingrese la nueva prioridad (Alta, Media, Baja):", listaDeTareas[index].prioridad);
@@ -65,14 +54,14 @@ function editarTarea(index) {
         listaDeTareas[index].tarea = tareaNueva;
         listaDeTareas[index].descripcion = descripcionNueva;
         listaDeTareas[index].prioridad = prioridadNueva;
-        guardarTareas();
+        guardarTareas(listaDeTareas);
         mostrarTareas();
     }
 }
 
-function eliminarTarea(index) {
+window.eliminarTarea = function (index) {
     listaDeTareas.splice(index, 1);
-    guardarTareas();
+    guardarTareas(listaDeTareas);
     mostrarTareas();
 }
 
@@ -92,6 +81,4 @@ document.getElementById('taskForm').addEventListener('submit', (event) => {
     }
 });
 
-
-document.addEventListener('DOMContentLoaded', cargarTareas);
-
+document.addEventListener('DOMContentLoaded', mostrarTareas);
