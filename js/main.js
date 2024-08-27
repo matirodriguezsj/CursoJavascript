@@ -1,4 +1,4 @@
-// En main.js
+
 import { cargarTareas, guardarTareas } from './storage.js';
 
 let listaDeTareas = cargarTareas();
